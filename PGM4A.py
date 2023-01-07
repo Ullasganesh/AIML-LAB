@@ -2,7 +2,7 @@ import pandas as pd
 import math
 import numpy as np
 
-data = pd.read_csv("AIMLLAB exam/dataset46.csv")
+data = pd.read_csv("dataset46.csv")
 features = [feat for feat in data]
 features.remove("PlayTennis")
 
@@ -31,15 +31,11 @@ def entropy(examples):
 
 def info_gain(examples, attr):
     uniq = np.unique(examples[attr])
-    #print ("\n",uniq)
     gain = entropy(examples)
-    #print ("\n",gain)
     for u in uniq:
         subdata = examples[examples[attr] == u]
-        #print ("\n",subdata)
         sub_e = entropy(subdata)
         gain -= (float(len(subdata)) / float(len(examples))) * sub_e
-        #print ("\n",gain)
     return gain
 
 def ID3(examples, attrs):
@@ -48,19 +44,14 @@ def ID3(examples, attrs):
     max_gain = 0
     max_feat = ""
     for feature in attrs:
-        #print ("\n",examples)
         gain = info_gain(examples, feature)
         if gain > max_gain:
             max_gain = gain
             max_feat = feature
     root.value = max_feat
-    #print ("\nMax feature attr",max_feat)
     uniq = np.unique(examples[max_feat])
-    #print ("\n",uniq)
     for u in uniq:
-        #print ("\n",u)
         subdata = examples[examples[max_feat] == u]
-        #print ("\n",subdata)
         if entropy(subdata) == 0.0:
             newNode = Node()
             newNode.isLeaf = True
